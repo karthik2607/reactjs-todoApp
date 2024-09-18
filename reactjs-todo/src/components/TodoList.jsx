@@ -1,25 +1,19 @@
-import React from 'react'
-import TodoCard from './TodoCard'
+import React, { useContext } from "react";
+import TodoCard from "./TodoCard";
+import AppContext from "../utils/context";
 
 export default function TodoList() {
-  let todos=[
-    'Go to the Gym',
-    'Work on the project',
-    'Get a placement'
-  ]
+  const { todos } = useContext(AppContext);
+
   return (
-    <ul className='main'>
-    {todos.map((todo,todoIndex)=>{
-      return(
-      <TodoCard key={todoIndex}>
-        <p>{todo}</p>
-
-      </TodoCard>
-      )
-      
-
-})}
+    <ul className="main">
+      {todos.map((todo, todoIndex) => {
+        return (
+          <TodoCard key={todoIndex}>
+            <p>{todo}</p>
+          </TodoCard>
+        );
+      })}
     </ul>
-  )
-
+  );
 }
