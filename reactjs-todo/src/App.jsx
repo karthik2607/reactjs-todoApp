@@ -8,12 +8,17 @@ function App() {
   const[todos,setTodos]=useState([]) 
   const[todoValue,setTodoValue]=useState('')
 
+  function persistData(newList){
+    localStorage.setItem('todos',JSON.stringify({todos:newList}))
+  }
+
   function handleAddTodos(newTodo){
     if(newTodo===''){
       alert("Todo is Empty!!")
     }
     else{
     const newTodoList=[...todos,newTodo]
+    persistData(newTodoList)
     setTodos(newTodoList)
     }
 
@@ -21,10 +26,11 @@ function App() {
   }
 
   function handleDelete(index){
-    const updatedTodos=todos.filter((todo,todoIndex)=>{
+    const newTodoList=todos.filter((todo,todoIndex)=>{
       return todoIndex!==index
     })
-    setTodos(updatedTodos)
+    persistData(newTodoList)
+    setTodos(newTodoList)
   }
 
   function handleEdit(index){
@@ -32,6 +38,19 @@ function App() {
     setTodoValue(valuetobeupdated)
     handleDelete(index)
   }
+
+  useEffect(()=>{
+    if(!localStorage){
+      return 
+    
+    }
+    let localTodos=localStorage.getItem('todos')
+    if(!localTodos){
+      return 
+    }
+    localTodos=JSON.parse(localTodos).todos
+    setTodos(localTodos)
+  },[])
 
 
   
