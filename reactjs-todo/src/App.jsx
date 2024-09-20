@@ -1,22 +1,47 @@
 import { useEffect, useState } from "react"
 import TodoInput from "./components/TodoInput"
 import TodoList from "./components/TodoList"
-import AppContext from "./utils/context"
 
 function App() {
-  const [todos, setTodos] = useState([]);
+  
 
-  useEffect(() => {
-    const temp = localStorage.getItem("todos");
+  const[todos,setTodos]=useState([]) 
+  const[todoValue,setTodoValue]=useState('')
 
-    setTodos(JSON.parse(temp) || []);
-  }, []);
+  function handleAddTodos(newTodo){
+    if(newTodo===''){
+      alert("Todo is Empty!!")
+    }
+    else{
+    const newTodoList=[...todos,newTodo]
+    setTodos(newTodoList)
+    }
 
+
+  }
+
+  function handleDelete(index){
+    const updatedTodos=todos.filter((todo,todoIndex)=>{
+      return todoIndex!==index
+    })
+    setTodos(updatedTodos)
+  }
+
+  function handleEdit(index){
+    const valuetobeupdated=todos[index]
+    setTodoValue(valuetobeupdated)
+    handleDelete(index)
+  }
+
+
+  
   return (
-    <AppContext.Provider value={{todos, setTodos}}>
-      <TodoInput />
-      <TodoList />
-    </AppContext.Provider>
+    <>
+    
+      <TodoInput todoValue={todoValue} setTodoValue={setTodoValue} handleAddTodos={handleAddTodos}/>
+      <TodoList handleEdit={handleEdit} todos={todos} handleDelete={handleDelete}/>
+      </>
+    
   )
 }
 

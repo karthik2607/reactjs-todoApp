@@ -1,15 +1,13 @@
-import React, { useContext } from "react";
+import React from "react";
 import TodoCard from "./TodoCard";
-import AppContext from "../utils/context";
 
-export default function TodoList() {
-  const { todos } = useContext(AppContext);
-
+export default function TodoList(props) {
+  const{todos}=props
   return (
     <ul className="main">
       {todos.map((todo, todoIndex) => {
         return (
-          <TodoCard key={todoIndex}>
+          <TodoCard {...props} key={todoIndex} index={todoIndex}>
             <p>{todo}</p>
           </TodoCard>
         );
@@ -17,3 +15,4 @@ export default function TodoList() {
     </ul>
   );
 }
+

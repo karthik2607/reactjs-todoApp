@@ -1,31 +1,23 @@
-import React, { useContext, useRef } from "react";
-import AppContext from "../utils/context";
+import React, { useState } from "react";
 
-export default function TodoInput() {
-  const todoValue = useRef("");
+export default function TodoInput(props) {
 
-  const { setTodos } = useContext(AppContext);
+  const{handleAddTodos,todoValue,setTodoValue}=props
+
 
   return (
     <header>
-      <input
-        onChange={(e) => {
-          todoValue.current = e.target.value;
-        }}
-        placeholder="Enter the todo....."
-      />
-      <button onClick={(e) => {
-        setTodos(todos => {
-            const temp = [...todos];
+      <input value={todoValue} onChange={(e)=>{
+        setTodoValue(e.target.value)
+      }}
 
-            temp.push(todoValue.current);
-
-            localStorage.setItem("todos", JSON.stringify(temp));
-
-            return temp;
-        })
-
+      placeholder="Enter todos...."/>
+      
+      <button onClick={()=>{
+        handleAddTodos(todoValue)
+        setTodoValue('')
       }}>Add</button>
+      
     </header>
-  );
+  )
 }
